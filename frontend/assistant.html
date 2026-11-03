@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Nutrition Assistant – FitMaster AI</title>
+  <meta name="description" content="AI Machine Learning nutrition gap analysis, personalized food ranking, and academic OpenCV image processing benchmarks.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .ai-hero-card {
+      background: linear-gradient(135deg, rgba(16, 24, 40, 0.95) 0%, rgba(13, 20, 36, 0.98) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      border-radius: var(--radius-xl);
+      padding: 30px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-hero-card::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .recommendations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .rec-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      transition: var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .rec-card:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+    }
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      color: var(--primary-light);
+      font-size: 12px;
+    }
+    .macro-pill {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+    }
+    .cv-section {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      margin-top: 36px;
+    }
+    .cv-disclaimer {
+      padding: 14px 18px;
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid var(--info);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      color: #93c5fd;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <!-- Mobile Topbar -->
+  <div class="mobile-topbar">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 18px;">
+      FitMaster <span style="color: var(--primary);">AI</span>
+    </div>
+    <button id="mobile-toggle-btn" class="mobile-menu-btn" aria-label="Toggle Navigation">☰</button>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 20V10"></path>
+          <path d="M12 20V4"></path>
+          <path d="M6 20v-6"></path>
+        </svg>
+        <span>FitMaster <span style="color: var(--primary);">AI</span></span>
+      </div>
+
+      <ul class="nav-links">
+        <li>
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-link-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="nav-link">
+            <span class="nav-link-icon">👤</span>
+            <span>User Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="calculator.html" class="nav-link">
+            <span class="nav-link-icon">🧮</span>
+            <span>Metabolic Calc</span>
+          </a>
+        </li>
+        <li>
+          <a href="food-tracker.html" class="nav-link">
+            <span class="nav-link-icon">🥗</span>
+            <span>Food Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="meal-planner.html" class="nav-link">
+            <span class="nav-link-icon">📅</span>
+            <span>Meal Planner</span>
+          </a>
+        </li>
+        <li>
+          <a href="water-tracker.html" class="nav-link">
+            <span class="nav-link-icon">💧</span>
+            <span>Water Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="progress.html" class="nav-link">
+            <span class="nav-link-icon">📈</span>
+            <span>Progress Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a href="assistant.html" class="nav-link active">
+            <span class="nav-link-icon">⚡</span>
+            <span>AI Nutrition Assistant</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-user">
+        <div class="user-snippet">
+          <div class="user-snippet-avatar" id="sidebar-user-avatar">FM</div>
+          <div class="user-snippet-meta">
+            <div class="user-snippet-name" id="sidebar-user-name">Loading...</div>
+            <div class="user-snippet-email" id="sidebar-user-email">...</div>
+          </div>
+        </div>
+        <button onclick="logout()" class="btn btn-secondary btn-sm" title="Log Out" style="padding: 6px 10px;">
+          🚪
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-content">
+      <!-- AI Hero & Trigger -->
+      <div class="ai-hero-card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: rgba(16, 185, 129, 0.15); border-radius: var(--radius-full); font-size: 12px; font-weight: 700; color: var(--primary-light); margin-bottom: 12px;">
+              <span>⚡</span> Multi-Stage Machine Learning Pipeline
+            </div>
+            <h1 style="font-family: var(--font-heading); font-size: 28px; font-weight: 800; margin-bottom: 6px;">
+              Intelligent Nutrition Gap Analysis & Recommendations
+            </h1>
+            <p style="color: var(--text-muted); font-size: 14px; max-width: 720px; line-height: 1.5;">
+              Evaluates current calorie and macro consumption against clinical Mifflin-St Jeor targets, diagnoses nutritional deficiencies via Random Forest & Deep Neural Network models, and ranks candidate foods.
+            </p>
+          </div>
+          <button id="run-ai-btn" class="btn btn-primary btn-lg" onclick="triggerAIGapAnalysis()" style="box-shadow: var(--shadow-glow);">
+            <span>⚡</span> Run AI Diagnosis
+          </button>
+        </div>
+
+        <!-- Real-time Gap Breakdown Card -->
+        <div id="ai-gap-results-card" style="margin-top: 24px; padding: 20px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-md); display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-weight: 700; font-size: 16px;" id="res-gap-title">Protein Deficit Detected</span>
+              <span class="ai-badge badge-deficit" id="res-gap-badge">Deficit</span>
+            </div>
+            <span style="font-size: 12px; color: var(--text-dim);" id="res-model-ver">v2.0-trained_random_forest_and_dnn</span>
+          </div>
+
+          <p style="font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;" id="res-advisory-text">
+            Advisory text will appear here.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
+            <div style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Calorie Gap</div>
+              <div style="font-size: 16px; font-weight: 700; color: var(--text-main);" id="res-cal-gap">0 kcal</div>
+            </div>
+            <div style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Protein Deficit</div>
+              <div style="font-size: 16px; font-weight: 700; color: #60a5fa;" id="res-p-gap">0 g</div>
+            </div>
+            <div style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Carb Deficit</div>
+              <div style="font-size: 16px; font-weight: 700; color: #fbbf24;" id="res-c-gap">0 g</div>
+            </div>
+            <div style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-sm);">
+              <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase;">Fat Deficit</div>
+              <div style="font-size: 16px; font-weight: 700; color: #f43f5e;" id="res-f-gap">0 g</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ranked Food Recommendations -->
+      <section style="margin-bottom: 36px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h2 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700;">
+              AI-Ranked Food Recommendations
+            </h2>
+            <p style="color: var(--text-muted); font-size: 13px;">
+              Highest-scoring candidate items from verified nutritional databanks tailored to your current gap.
+            </p>
+          </div>
+        </div>
+
+        <div class="recommendations-grid" id="recommendations-container">
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+            Click <strong>"Run AI Diagnosis"</strong> above to compute your live nutritional gap and rank candidate foods!
+          </div>
+        </div>
+      </section>
+
+      <!-- Academic OpenCV Computer Vision Research Section -->
+      <section class="cv-section">
+        <div class="cv-disclaimer">
+          <strong>🎓 Academic Specification & Research Boundary:</strong>
+          This module is a dedicated Computer Vision research component benchmarking classical digital image processing algorithms (Gaussian Filtering, Otsu Binarization, Canny Edge Detection, Watershed Segmentation). In accordance with academic capstone requirements, <strong>FitMaster AI strictly uses verified portion-gram calculations and does not employ error-prone camera-based calorie scanners.</strong>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700;">
+              OpenCV Digital Image Processing Benchmark
+            </h3>
+            <p style="color: var(--text-muted); font-size: 13px;">
+              Interactive demonstration of spatial domain filtering, automated thresholding, and morphological segmentation.
+            </p>
+          </div>
+          <button class="btn btn-secondary" onclick="runCVBenchmark()" id="cv-run-btn">
+            🔬 Run CV Benchmark Pipeline
+          </button>
+        </div>
+
+        <div id="cv-benchmark-container" style="background: #0d1424; border: 1px solid var(--bg-card-border); border-radius: var(--radius-lg); padding: 24px; text-align: center;">
+          <img id="cv-benchmark-img" src="/api/analytics/static/cv_research_benchmark.png" alt="OpenCV Digital Image Processing Pipeline Benchmark" style="max-width: 100%; height: auto; border-radius: var(--radius-md); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);" onerror="this.parentElement.innerHTML='<div style=\'padding:30px;color:var(--text-muted);\'>Click \'Run CV Benchmark Pipeline\' to render the 4-stage digital image processing matrix.</div>';">
+          <div style="margin-top: 14px; font-size: 12px; color: var(--text-dim);">
+            Pipeline: 1. Original Grayscale → 2. Gaussian Filter (5x5, σ=1.2) → 3. Otsu Optimal Thresholding → 4. Canny Edge Detection (50, 150)
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/assistant.js"></script>
+</body>
+</html>

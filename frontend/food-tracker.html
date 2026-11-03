@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food & Nutrition Tracker – FitMaster AI</title>
+  <meta name="description" content="Search verified nutrition database, calculate proportional calories and macros dynamically, and log daily meals.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tracker.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <!-- Mobile Topbar -->
+  <div class="mobile-topbar">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 18px;">
+      FitMaster <span style="color: var(--primary);">AI</span>
+    </div>
+    <button id="mobile-toggle-btn" class="mobile-menu-btn" aria-label="Toggle Navigation">☰</button>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 20V10"></path>
+          <path d="M12 20V4"></path>
+          <path d="M6 20v-6"></path>
+        </svg>
+        <span>FitMaster <span style="color: var(--primary);">AI</span></span>
+      </div>
+
+      <ul class="nav-links">
+        <li>
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-link-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="nav-link">
+            <span class="nav-link-icon">👤</span>
+            <span>User Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="food-tracker.html" class="nav-link active">
+            <span class="nav-link-icon">🥗</span>
+            <span>Food Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="meal-planner.html" class="nav-link">
+            <span class="nav-link-icon">📅</span>
+            <span>Meal Planner</span>
+          </a>
+        </li>
+        <li>
+          <a href="water-tracker.html" class="nav-link">
+            <span class="nav-link-icon">💧</span>
+            <span>Water Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="progress.html" class="nav-link">
+            <span class="nav-link-icon">📈</span>
+            <span>Progress Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a href="assistant.html" class="nav-link">
+            <span class="nav-link-icon">⚡</span>
+            <span>AI Nutrition Assistant</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-user">
+        <div class="user-snippet">
+          <div class="user-snippet-avatar" id="sidebar-user-avatar">FM</div>
+          <div class="user-snippet-meta">
+            <div class="user-snippet-name" id="sidebar-user-name">Loading...</div>
+            <div class="user-snippet-email" id="sidebar-user-email">...</div>
+          </div>
+        </div>
+        <button onclick="logout()" class="btn btn-secondary btn-sm" title="Log Out" style="padding: 6px 10px;">
+          🚪
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header Controls -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h1 style="font-size: 28px; margin-bottom: 6px;">Food & Nutrition Tracker</h1>
+          <p style="color: var(--text-muted); font-size: 14px;">
+            Log your daily intake with dynamic per-gram nutritional calculation. Manual database search only.
+          </p>
+        </div>
+
+        <!-- Date Stepper -->
+        <div class="date-stepper">
+          <button id="prev-day-btn" class="btn btn-secondary btn-sm">◀ Previous</button>
+          <input type="date" id="tracker-date-picker" class="date-input">
+          <button id="next-day-btn" class="btn btn-secondary btn-sm">Next ▶</button>
+        </div>
+      </div>
+
+      <!-- Daily Macro & Calorie Bar -->
+      <div class="glass-panel tracker-summary-bar">
+        <div class="tracker-calories-meter">
+          <div class="calories-meter-header">
+            <span class="calories-meter-title">Daily Calorie Budget Fulfillment</span>
+            <div class="calories-meter-numbers">
+              <span id="consumed-calories-num">0</span> / <strong id="target-calories-num">2000</strong> kcal
+              (<span id="remaining-calories-num" style="color: var(--text-dim); font-size: 14px;">2000 remaining</span>)
+            </div>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="calories-progress-bar" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="macro-stats-grid">
+          <div class="macro-stat-box">
+            <div class="macro-stat-label" style="color: #60a5fa;">Protein</div>
+            <div class="macro-stat-value" id="consumed-protein-stat">0g / 0g</div>
+          </div>
+          <div class="macro-stat-box">
+            <div class="macro-stat-label" style="color: #f59e0b;">Carbohydrates</div>
+            <div class="macro-stat-value" id="consumed-carbs-stat">0g / 0g</div>
+          </div>
+          <div class="macro-stat-box">
+            <div class="macro-stat-label" style="color: #f43f5e;">Fats</div>
+            <div class="macro-stat-value" id="consumed-fat-stat">0g / 0g</div>
+          </div>
+          <div class="macro-stat-box">
+            <div class="macro-stat-label" style="color: #10b981;">Dietary Fibre</div>
+            <div class="macro-stat-value" id="consumed-fibre-stat">0g</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Four Canonical Meal Slots -->
+      <div class="meals-grid">
+        <!-- Breakfast Slot -->
+        <div class="glass-panel meal-slot-card" id="slot-breakfast">
+          <div class="meal-slot-header">
+            <div class="meal-title-group">
+              <div class="meal-icon-box">🍳</div>
+              <div>
+                <h3>Breakfast</h3>
+                <div class="meal-totals-pill" id="breakfast-totals-text">0 kcal • 0g P • 0g C • 0g F</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm add-food-btn" data-meal="breakfast">
+              + Add Food
+            </button>
+          </div>
+          <div class="meal-items-list" id="breakfast-items-container">
+            <div class="empty-meal-placeholder">No breakfast foods logged yet.</div>
+          </div>
+        </div>
+
+        <!-- Lunch Slot -->
+        <div class="glass-panel meal-slot-card" id="slot-lunch">
+          <div class="meal-slot-header">
+            <div class="meal-title-group">
+              <div class="meal-icon-box">🥗</div>
+              <div>
+                <h3>Lunch</h3>
+                <div class="meal-totals-pill" id="lunch-totals-text">0 kcal • 0g P • 0g C • 0g F</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm add-food-btn" data-meal="lunch">
+              + Add Food
+            </button>
+          </div>
+          <div class="meal-items-list" id="lunch-items-container">
+            <div class="empty-meal-placeholder">No lunch foods logged yet.</div>
+          </div>
+        </div>
+
+        <!-- Dinner Slot -->
+        <div class="glass-panel meal-slot-card" id="slot-dinner">
+          <div class="meal-slot-header">
+            <div class="meal-title-group">
+              <div class="meal-icon-box">🍲</div>
+              <div>
+                <h3>Dinner</h3>
+                <div class="meal-totals-pill" id="dinner-totals-text">0 kcal • 0g P • 0g C • 0g F</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm add-food-btn" data-meal="dinner">
+              + Add Food
+            </button>
+          </div>
+          <div class="meal-items-list" id="dinner-items-container">
+            <div class="empty-meal-placeholder">No dinner foods logged yet.</div>
+          </div>
+        </div>
+
+        <!-- Snacks Slot -->
+        <div class="glass-panel meal-slot-card" id="slot-snacks">
+          <div class="meal-slot-header">
+            <div class="meal-title-group">
+              <div class="meal-icon-box">🍎</div>
+              <div>
+                <h3>Snacks & Beverages</h3>
+                <div class="meal-totals-pill" id="snacks-totals-text">0 kcal • 0g P • 0g C • 0g F</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm add-food-btn" data-meal="snacks">
+              + Add Food
+            </button>
+          </div>
+          <div class="meal-items-list" id="snacks-items-container">
+            <div class="empty-meal-placeholder">No snacks logged yet.</div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Food Search & Gram Sizing Modal -->
+  <div class="modal-backdrop" id="food-search-modal">
+    <div class="glass-panel modal-card">
+      <div class="modal-header">
+        <div>
+          <h2 style="font-size: 20px;">Add Food to <span id="modal-meal-name" style="color: var(--primary-light);">Meal</span></h2>
+          <p style="color: var(--text-dim); font-size: 13px;">Search verified USDA & Indian Nutrient Databank records</p>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <!-- Search Input -->
+      <div class="form-group" style="margin-bottom: 12px;">
+        <input type="text" id="food-search-input" class="form-control" placeholder="Search foods (e.g., Brown Rice, Paneer, Chicken, Dal)..." autocomplete="off">
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="category-filter-chips" id="category-chips-bar">
+        <button class="category-chip active" data-cat="">All Categories</button>
+        <button class="category-chip" data-cat="Grains & Cereals">Grains & Cereals</button>
+        <button class="category-chip" data-cat="Legumes & Pulses">Legumes & Pulses</button>
+        <button class="category-chip" data-cat="Dairy & Alternatives">Dairy</button>
+        <button class="category-chip" data-cat="Poultry & Meat">Poultry & Meat</button>
+        <button class="category-chip" data-cat="Fish & Seafood">Fish & Seafood</button>
+        <button class="category-chip" data-cat="Vegetables">Vegetables</button>
+        <button class="category-chip" data-cat="Fruits">Fruits</button>
+        <button class="category-chip" data-cat="Nuts & Seeds">Nuts & Seeds</button>
+        <button class="category-chip" data-cat="Oils & Fats">Oils & Fats</button>
+      </div>
+
+      <!-- Food List -->
+      <div class="search-results-box" id="search-results-list">
+        <div style="text-align: center; padding: 30px; color: var(--text-dim);">
+          Loading food database...
+        </div>
+      </div>
+
+      <!-- Dynamic Serving Sizer (Visible when food is selected) -->
+      <div class="serving-calculator-card" id="serving-calculator" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong id="selected-food-title" style="color: #ffffff; font-size: 15px;">Selected Food</strong>
+          <span class="badge badge-cyan" id="selected-food-source">USDA</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="flex: 1;">
+            <label class="form-label" for="serving-grams-input">Portion Weight in Grams (g)</label>
+            <input type="number" id="serving-grams-input" class="form-control" value="100" min="5" max="2000" step="5">
+          </div>
+          <div style="flex: 1;">
+            <div class="form-label">Quick Presets</div>
+            <div class="serving-presets">
+              <button class="preset-chip" data-grams="50">50g</button>
+              <button class="preset-chip" data-grams="100">100g</button>
+              <button class="preset-chip" data-grams="150">150g</button>
+              <button class="preset-chip" data-grams="200">200g</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Calculation Preview -->
+        <div class="dynamic-calc-preview">
+          <div>
+            <strong>Calories:</strong> <span id="calc-calories">0</span> kcal
+          </div>
+          <div>
+            <strong>Protein:</strong> <span id="calc-protein">0</span>g
+          </div>
+          <div>
+            <strong>Carbs:</strong> <span id="calc-carbs">0</span>g
+          </div>
+          <div>
+            <strong>Fat:</strong> <span id="calc-fat">0</span>g
+          </div>
+          <div>
+            <strong>Fibre:</strong> <span id="calc-fibre">0</span>g
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+        <button class="btn btn-secondary" id="modal-cancel-btn">Cancel</button>
+        <button class="btn btn-primary" id="confirm-add-food-btn" disabled>
+          Add to Meal
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/food-tracker.js"></script>
+  <script>
+    const toggleBtn = document.getElementById('mobile-toggle-btn');
+    const sidebar = document.getElementById('app-sidebar');
+    toggleBtn?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

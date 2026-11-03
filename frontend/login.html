@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – FitMaster AI Intelligent Nutrition Tracker</title>
+  <meta name="description" content="Sign in to FitMaster AI to access your personalized nutrition dashboard, calorie requirements, and AI dietary recommendations.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <div class="auth-wrapper">
+    <div class="glass-panel auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <div class="auth-logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 20V10"></path>
+              <path d="M12 20V4"></path>
+              <path d="M6 20v-6"></path>
+            </svg>
+          </div>
+          <span>FitMaster <span style="color: var(--primary);">AI</span></span>
+        </div>
+        <p class="auth-subtitle">Intelligent Nutrition & Metabolic Tracker</p>
+      </div>
+
+      <div id="auth-error-banner" class="auth-banner-error"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 7px;">
+            <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+          </div>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block" style="padding: 13px;">
+          Sign In
+        </button>
+
+        <div style="margin-top: 14px; text-align: center;">
+          <button type="button" id="demo-fill-btn" class="btn btn-secondary btn-sm" style="font-size: 11px;">
+            Quick Fill Demo User (demo@fitmaster.ai)
+          </button>
+        </div>
+      </form>
+
+      <div class="auth-footer">
+        Don't have an account? <a href="register.html">Create one now</a>
+      </div>
+
+      <div class="auth-features-list">
+        <div class="auth-feature-item">
+          <span class="auth-feature-dot"></span>
+          <span>Mifflin-St Jeor BMR</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="auth-feature-dot"></span>
+          <span>USDA Datasets</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="auth-feature-dot"></span>
+          <span>AI Analytics</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.getElementById('demo-fill-btn')?.addEventListener('click', () => {
+      document.getElementById('login-email').value = 'demo@fitmaster.ai';
+      document.getElementById('login-password').value = 'Password@123';
+      showToast('Demo Credentials Filled', 'Click "Sign In" to access the dashboard.', 'info');
+    });
+  </script>
+</body>
+</html>

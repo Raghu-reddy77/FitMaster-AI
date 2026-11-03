@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile & Metabolic Goals – FitMaster AI</title>
+  <meta name="description" content="Manage your biometric profile and review personalized metabolic targets calculated with Mifflin-St Jeor equations.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <!-- Mobile Topbar -->
+  <div class="mobile-topbar">
+    <div style="font-family: var(--font-heading); font-weight: 800; font-size: 18px;">
+      FitMaster <span style="color: var(--primary);">AI</span>
+    </div>
+    <button id="mobile-toggle-btn" class="mobile-menu-btn" aria-label="Toggle Navigation">☰</button>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="app-sidebar">
+      <div class="sidebar-brand">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 20V10"></path>
+          <path d="M12 20V4"></path>
+          <path d="M6 20v-6"></path>
+        </svg>
+        <span>FitMaster <span style="color: var(--primary);">AI</span></span>
+      </div>
+
+      <ul class="nav-links">
+        <li>
+          <a href="dashboard.html" class="nav-link">
+            <span class="nav-link-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="profile.html" class="nav-link active">
+            <span class="nav-link-icon">👤</span>
+            <span>User Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="food-tracker.html" class="nav-link">
+            <span class="nav-link-icon">🥗</span>
+            <span>Food Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="meal-planner.html" class="nav-link">
+            <span class="nav-link-icon">📅</span>
+            <span>Meal Planner</span>
+          </a>
+        </li>
+        <li>
+          <a href="water-tracker.html" class="nav-link">
+            <span class="nav-link-icon">💧</span>
+            <span>Water Tracker</span>
+          </a>
+        </li>
+        <li>
+          <a href="progress.html" class="nav-link">
+            <span class="nav-link-icon">📈</span>
+            <span>Progress Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a href="assistant.html" class="nav-link">
+            <span class="nav-link-icon">⚡</span>
+            <span>AI Nutrition Assistant</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-user">
+        <div class="user-snippet">
+          <div class="user-snippet-avatar" id="sidebar-user-avatar">FM</div>
+          <div class="user-snippet-meta">
+            <div class="user-snippet-name" id="sidebar-user-name">Loading...</div>
+            <div class="user-snippet-email" id="sidebar-user-email">...</div>
+          </div>
+        </div>
+        <button onclick="logout()" class="btn btn-secondary btn-sm" title="Log Out" style="padding: 6px 10px;">
+          🚪
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+        <div>
+          <h1 style="font-size: 28px; margin-bottom: 6px;">Biometric Profile & Goals</h1>
+          <p style="color: var(--text-muted); font-size: 14px;">
+            Configure your physiological measurements to compute scientifically validated metabolic targets.
+          </p>
+        </div>
+      </div>
+
+      <!-- Identity Header Card -->
+      <div class="glass-panel profile-header-card">
+        <div class="avatar-initials" id="profile-avatar-initials">FM</div>
+        <div class="profile-identity">
+          <h2 id="profile-display-name">Loading Profile...</h2>
+          <p id="profile-display-email">Retrieving your account details...</p>
+        </div>
+      </div>
+
+      <!-- Two-column Layout: Form on Left, Live Targets on Right -->
+      <div class="profile-layout">
+        <!-- Profile Edit Form -->
+        <div class="glass-panel" style="padding: 30px;">
+          <h3 style="font-size: 18px; margin-bottom: 20px;">Physical Attributes & Activity</h3>
+
+          <form id="profile-form">
+            <div class="biometric-grid">
+              <div class="form-group">
+                <label class="form-label" for="profile-age">Age (Years)</label>
+                <input type="number" id="profile-age" class="form-control" min="12" max="120" placeholder="25" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-gender">Gender</label>
+                <select id="profile-gender" class="form-select" required>
+                  <option value="" disabled selected>Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other / Prefer not to say</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-height">Height (cm)</label>
+                <input type="number" step="0.1" id="profile-height" class="form-control" min="50" max="280" placeholder="175" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profile-weight">Weight (kg)</label>
+                <input type="number" step="0.1" id="profile-weight" class="form-control" min="25" max="350" placeholder="70" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="profile-activity">Physical Activity Level</label>
+              <select id="profile-activity" class="form-select" required>
+                <option value="sedentary">Sedentary (Little or no exercise, desk job)</option>
+                <option value="lightly_active">Lightly Active (Light exercise 1-3 days/week)</option>
+                <option value="moderately_active" selected>Moderately Active (Moderate exercise 3-5 days/week)</option>
+                <option value="very_active">Very Active (Hard exercise 6-7 days/week)</option>
+                <option value="extra_active">Extra Active (Very hard exercise / physical labor)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="profile-goal">Primary Fitness Goal</label>
+              <select id="profile-goal" class="form-select" required>
+                <option value="weight_loss">Weight Loss (-500 kcal healthy deficit)</option>
+                <option value="weight_maintenance" selected>Weight Maintenance (Maintain current weight)</option>
+                <option value="lean_muscle_gain">Lean Muscle Gain (+350 kcal controlled surplus)</option>
+              </select>
+            </div>
+
+            <button type="submit" id="save-profile-btn" class="btn btn-primary btn-block" style="padding: 13px; margin-top: 10px;">
+              Save Profile & Recalculate Goals
+            </button>
+          </form>
+        </div>
+
+        <!-- Calculated Metabolic Targets Preview -->
+        <div class="glass-panel goals-preview-card">
+          <div class="goals-preview-header">
+            <div>
+              <h3 style="font-size: 18px; margin-bottom: 4px;">Personalized Metabolic Targets</h3>
+              <p style="color: var(--text-muted); font-size: 13px;">Computed with Mifflin-St Jeor Equation</p>
+            </div>
+            <span class="badge badge-success" id="goal-badge">Calculated</span>
+          </div>
+
+          <!-- Hero Calorie Display -->
+          <div class="calorie-target-hero">
+            <div class="calorie-hero-val" id="target-calories-val">--</div>
+            <div class="calorie-hero-sub">Daily Calorie Target (kcal)</div>
+          </div>
+
+          <!-- Macronutrient Breakdown Row -->
+          <div class="macro-breakdown-row">
+            <div class="macro-pill-card pill-protein">
+              <div class="macro-pill-title">Protein</div>
+              <div class="macro-pill-val" id="target-protein-val">-- g</div>
+            </div>
+            <div class="macro-pill-card pill-carbs">
+              <div class="macro-pill-title">Carbohydrates</div>
+              <div class="macro-pill-val" id="target-carbs-val">-- g</div>
+            </div>
+            <div class="macro-pill-card pill-fat">
+              <div class="macro-pill-title">Healthy Fats</div>
+              <div class="macro-pill-val" id="target-fat-val">-- g</div>
+            </div>
+          </div>
+
+          <!-- Metabolic Chips -->
+          <div class="metabolic-chips">
+            <div class="metabolic-chip">
+              BMI: <strong id="chip-bmi">--</strong> (<span id="chip-bmi-category">--</span>)
+            </div>
+            <div class="metabolic-chip">
+              BMR: <strong id="chip-bmr">--</strong> kcal
+            </div>
+            <div class="metabolic-chip">
+              TDEE: <strong id="chip-tdee">--</strong> kcal
+            </div>
+            <div class="metabolic-chip">
+              Hydration: <strong id="chip-water">--</strong> ml
+            </div>
+          </div>
+
+          <!-- Clinical Disclaimer -->
+          <div class="medical-disclaimer">
+            <span style="font-size: 16px;">⚕️</span>
+            <div>
+              <strong>Academic & Health Disclaimer:</strong>
+              These nutritional targets are computed estimates based on the Mifflin-St Jeor metabolic equation and dietary guidelines. They are intended for educational and tracking purposes, not as medical prescriptions.
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/profile.js"></script>
+  <script>
+    // Responsive sidebar mobile toggle
+    const toggleBtn = document.getElementById('mobile-toggle-btn');
+    const sidebar = document.getElementById('app-sidebar');
+    toggleBtn?.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
+  </script>
+</body>
+</html>

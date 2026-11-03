@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account – FitMaster AI</title>
+  <meta name="description" content="Register an account with FitMaster AI to receive personalized nutrition targets and intelligent dietary recommendations.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <div class="auth-wrapper">
+    <div class="glass-panel auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <div class="auth-logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 20V10"></path>
+              <path d="M12 20V4"></path>
+              <path d="M6 20v-6"></path>
+            </svg>
+          </div>
+          <span>FitMaster <span style="color: var(--primary);">AI</span></span>
+        </div>
+        <p class="auth-subtitle">Create your personal metabolic tracking profile</p>
+      </div>
+
+      <div id="auth-error-banner" class="auth-banner-error"></div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label" for="register-name">Full Name</label>
+          <input type="text" id="register-name" class="form-control" placeholder="John Doe" required autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="register-email">Email Address</label>
+          <input type="email" id="register-email" class="form-control" placeholder="name@example.com" required autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="register-password">Password (Minimum 6 characters)</label>
+          <input type="password" id="register-password" class="form-control" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="register-confirm-password">Confirm Password</label>
+          <input type="password" id="register-confirm-password" class="form-control" placeholder="••••••••" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <button type="submit" id="register-submit-btn" class="btn btn-primary btn-block" style="padding: 13px;">
+          Create Free Account
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Already registered? <a href="login.html">Sign in here</a>
+      </div>
+
+      <div class="auth-features-list">
+        <div class="auth-feature-item">
+          <span class="auth-feature-dot"></span>
+          <span>BMR & TDEE Calculations</span>
+        </div>
+        <div class="auth-feature-item">
+          <span class="auth-feature-dot"></span>
+          <span>Manual Portion Sizing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

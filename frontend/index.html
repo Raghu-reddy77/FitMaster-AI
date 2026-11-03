@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitMaster AI – Intelligent Nutrition & Hydration Tracker</title>
+  <meta name="description" content="Academic Capstone Project in Computer Science and Engineering. Full-stack intelligent nutrition, metabolic calculation, and ML food recommendation system.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+    .landing-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+    .hero-section {
+      max-width: 1200px;
+      margin: 40px auto 60px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary-light);
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 54px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 19px;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: left;
+      transition: var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+    }
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 18px;
+      display: inline-block;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .feature-title {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .architecture-banner {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 36px;
+      background: linear-gradient(135deg, rgba(16, 24, 40, 0.9) 0%, rgba(13, 20, 36, 0.95) 100%);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    footer {
+      border-top: 1px solid var(--bg-card-border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div id="toast-container"></div>
+
+  <!-- Top Navigation -->
+  <header class="landing-nav">
+    <a href="index.html" class="landing-brand">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 20V10"></path>
+        <path d="M12 20V4"></path>
+        <path d="M6 20v-6"></path>
+      </svg>
+      <span>FitMaster <span style="color: var(--primary);">AI</span></span>
+    </a>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <a href="login.html" class="btn btn-secondary">Sign In</a>
+      <a href="register.html" class="btn btn-primary">Get Started</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="hero-badge">
+        <span>🎓</span> B.Tech CSE Academic Capstone Project
+      </div>
+      <h1 class="hero-title">
+        Intelligent Nutrition & Hydration<br>
+        Powered by <span>AI Microservices</span>
+      </h1>
+      <p class="hero-subtitle">
+        A full-stack diet and hydration management architecture combining clinically validated Mifflin-St Jeor metabolic equations, 3NF MySQL/SQLite data modeling, Scikit-Learn & TensorFlow neural networks, and server-side Matplotlib data visualization.
+      </p>
+
+      <div class="hero-actions">
+        <a href="login.html" class="btn btn-primary btn-lg">Launch FitMaster AI</a>
+        <button id="quick-demo-btn" class="btn btn-secondary btn-lg" onclick="loginDemoUser()">
+          ⚡ Quick Demo Login
+        </button>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <span class="tech-pill">Node.js Express Gateway</span>
+        <span class="tech-pill">MySQL 8.0+ / SQLite Dual Driver</span>
+        <span class="tech-pill">Python FastAPI Microservice</span>
+        <span class="tech-pill">Scikit-Learn Baseline</span>
+        <span class="tech-pill">TensorFlow 2.x Deep MLP</span>
+        <span class="tech-pill">Matplotlib Scientific Charts</span>
+      </div>
+    </section>
+
+    <!-- Key Modules Grid -->
+    <section class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🥗</div>
+        <h3 class="feature-title">Verified Food Reference</h3>
+        <p class="feature-desc">
+          Normalized strictly to per-100g metrics from USDA FoodData Central and Indian Nutrient Databank. Proportional calorie and macro scaling without inaccurate camera scanning gimmicks.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧮</div>
+        <h3 class="feature-title">Metabolic Math Engine</h3>
+        <p class="feature-desc">
+          Clinically acceptance Mifflin-St Jeor Basal Metabolic Rate (BMR), physical activity-adjusted TDEE, and customized goal deficits (-500 kcal for weight loss, +350 kcal for lean muscle).
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3 class="feature-title">AI Nutrition Gap Classifier</h3>
+        <p class="feature-desc">
+          Stage 2 Random Forest and Stage 3 TensorFlow Deep Neural Network diagnosing real-time intake imbalances (protein deficits, caloric overshoots) with ranked food recommendations.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">Scientific Matplotlib Charts</h3>
+        <p class="feature-desc">
+          Server-side rendered, publication-grade PNG visualizations of 7-day intake trends, 30-day macros, weight trajectory, and ML convergence loss/accuracy curves.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💧</div>
+        <h3 class="feature-title">Precision Hydration</h3>
+        <p class="feature-desc">
+          Bodyweight-calibrated water goals ($35\text{ ml/kg}$), rapid milliliter logging, target fulfillment meters, and daily hydration logs.
+        </p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <h3 class="feature-title">OpenCV Research Module</h3>
+        <p class="feature-desc">
+          Dedicated academic computer vision module benchmarking Gaussian blurring, Otsu thresholding, and Canny edge detection in an isolated research environment.
+        </p>
+      </div>
+    </section>
+
+    <!-- Architecture Callout -->
+    <section style="padding: 0 24px;">
+      <div class="architecture-banner">
+        <div>
+          <h2 style="font-family: var(--font-heading); font-size: 24px; font-weight: 700; margin-bottom: 8px;">
+            Ready to explore the live system?
+          </h2>
+          <p style="color: var(--text-muted); font-size: 14px;">
+            Sign in with demo credentials (<code style="color: var(--primary);">demo@fitmaster.ai</code> / <code style="color: var(--primary);">Password@123</code>) or create an account.
+          </p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <a href="register.html" class="btn btn-primary">Create Account</a>
+          <a href="login.html" class="btn btn-secondary">Sign In</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>FitMaster AI – Academic Capstone Project in Computer Science and Engineering.</p>
+    <p style="margin-top: 6px; font-size: 12px; color: var(--text-dim);">Strictly verified data per 100g • No camera scanning gimmicks • Clinically grounded metabolic equations</p>
+  </footer>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Quick Demo Login Handler
+    async function loginDemoUser() {
+      const btn = document.getElementById('quick-demo-btn');
+      btn.disabled = true;
+      btn.textContent = 'Authenticating...';
+
+      try {
+        const res = await api.post('/auth/login', {
+          email: 'demo@fitmaster.ai',
+          password: 'Password@123'
+        });
+
+        localStorage.setItem('fitmaster_token', res.data.token);
+        localStorage.setItem('fitmaster_user', JSON.stringify(res.data.user));
+        showToast('Login Successful', 'Welcome to FitMaster AI!');
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 600);
+      } catch (err) {
+        showToast('Login Failed', err.message, 'error');
+        btn.disabled = false;
+        btn.textContent = '⚡ Quick Demo Login';
+      }
+    }
+
+    // Auto redirect if already authenticated
+    if (localStorage.getItem('fitmaster_token')) {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>
